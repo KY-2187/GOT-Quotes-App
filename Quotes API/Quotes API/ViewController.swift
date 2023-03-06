@@ -11,6 +11,7 @@ class ViewController: UITableViewController {
 
     private static let reuseIdentifier = "identifier"
     var searchResponse: SearchResponse?
+    var allQuotes = [SearchResponse]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +28,10 @@ class ViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        cell.textLabel?.text =  searchResponse?.results[indexPath.row].content
+        if (allQuotes.count != 0)
+        {
+            cell.textLabel?.text = allQuotes[indexPath.row].sentence
+        }
         return cell
     }
 
@@ -41,14 +45,14 @@ class ViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return 10
     }
     
     func makeAPIcall(completion: @escaping (SearchResponse?) -> Void) {
         print("Start API Call")
-        guard let url = URL(string: "https://api.quotable.io/quotes") else {return}
+        guard let url = URL(string: "https://api.gameofthronesquotes.xyz/v1/random/20") else {return}
         
-        let task = URLSession.shared.dataTask(with:url) {data, response, error in
+        let task = URLSession.shared.dataTask(with:url) { [self]data, response, error in
             var searchResponse: SearchResponse?
             defer { completion(searchResponse)}
             print("Done with call")
@@ -68,9 +72,9 @@ class ViewController: UITableViewController {
                 //print(dataString)
             //}
             if let data = data,
-                let response = try? JSONDecoder().decode(SearchResponse.self, from: data) {
+                let response = try? JSONDecoder().decode([SearchResponse].self, from: data) {
                     print("Success")
-                    searchResponse = response
+                allQuotes += response
                 } else {
                     print("Something is wrong with decoding, probably.")
             }
@@ -79,18 +83,11 @@ class ViewController: UITableViewController {
     }
 }
 
-struct SearchResponse:Codable {
-    let count: Int
-    let totalCount: Int
-    let page: Int
-    let totalPages: Int
-    let lastItemIndex: Int
-    let results: [Quote]
+struct SearchResponse: Codable {
+    let sentence: String
+    let character: Character
 }
 
-struct Quote:Codable {
-    let _id: String
-    let author: String
-    let content: String
+struct Character: Codable {
+    let name: String
 }
-
