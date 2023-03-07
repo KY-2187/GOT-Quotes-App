@@ -8,7 +8,16 @@
 import UIKit
 
 class TableViewCell: UITableViewCell {
+    let italicFont = UIFont.italicSystemFont(ofSize: 18)
+    
     let quoteLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let characterLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -19,6 +28,7 @@ class TableViewCell: UITableViewCell {
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.alignment = .leading
+        stack.spacing = 10;
         return stack
     }()
     
@@ -35,12 +45,14 @@ class TableViewCell: UITableViewCell {
     func setupUI() {
         contentView.addSubview(stackView)
         stackView.addArrangedSubview(quoteLabel)
+        stackView.addArrangedSubview(characterLabel)
+        quoteLabel.font = italicFont
 
         let constraints = [
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30)
         ]
         NSLayoutConstraint.activate(constraints)    }
 }

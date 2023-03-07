@@ -27,10 +27,12 @@ class ViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        let cell = TableViewCell()
+        
         if (allQuotes.count != 0)
         {
-            cell.textLabel?.text = allQuotes[indexPath.row].sentence
+            cell.quoteLabel.text = allQuotes[indexPath.row].sentence
+            cell.characterLabel.text = "- \(allQuotes[indexPath.row].character.name)"
         }
         return cell
     }
@@ -45,7 +47,7 @@ class ViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return allQuotes.count
     }
     
     func makeAPIcall(completion: @escaping (SearchResponse?) -> Void) {
