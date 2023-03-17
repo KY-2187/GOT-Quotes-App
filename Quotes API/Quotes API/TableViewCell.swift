@@ -9,10 +9,12 @@ import UIKit
 
 class TableViewCell: UITableViewCell {
     let italicFont = UIFont.italicSystemFont(ofSize: 18)
+    let boldFont = UIFont.boldSystemFont(ofSize: 14)
     
     let quoteLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -27,8 +29,8 @@ class TableViewCell: UITableViewCell {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
-        stack.alignment = .leading
         stack.spacing = 10;
+        stack.alignment = .center
         return stack
     }()
     
@@ -47,6 +49,7 @@ class TableViewCell: UITableViewCell {
         stackView.addArrangedSubview(quoteLabel)
         stackView.addArrangedSubview(characterLabel)
         quoteLabel.font = italicFont
+        characterLabel.font = boldFont
 
         let constraints = [
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),

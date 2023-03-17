@@ -31,7 +31,7 @@ class ViewController: UITableViewController {
         
         if (allQuotes.count != 0)
         {
-            cell.quoteLabel.text = allQuotes[indexPath.row].sentence
+            cell.quoteLabel.text = "\"\(allQuotes[indexPath.row].sentence)\""
             cell.characterLabel.text = "- \(allQuotes[indexPath.row].character.name)"
         }
         return cell
